@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"math/rand"
 	"strconv"
@@ -41,12 +42,16 @@ func NewDeck() Deck {
 	return deck
 }
 
-func (d *Deck) TakeRandomCard() Card {
+func (d *Deck) TakeRandomCard() (Card, error) {
+	if len(*d) == 0 {
+		return Card{}, errors.New("deck is empty")
+	}
+
 	randIndex := rand.Intn(len(*d))
 	card := (*d)[randIndex]
 	(*d)[randIndex] = (*d)[len(*d)-1]
 	*d = (*d)[:len(*d)-1]
-	return card
+	return card, nil
 }
 
 func hit(card Card) {
@@ -97,8 +102,13 @@ func main() {
 
 		switch command {
 		case "hit":
-			cards = append(cards, deck.TakeRandomCard())
-			hit(cards[len(cards)-1])
+			card, err := deck.TakeRandomCard()
+			if err != nil {
+				fmt.Println("... Deck is empty!")
+				return
+			}
+			cards = append(cards, card)
+			hit(card)
 			score := getScore(cards)
 			if score > 21 {
 				fmt.Printf("... BUST! Score: %v\n", score)
