@@ -9,10 +9,6 @@ func hit(card Card) {
 	fmt.Println("You got a", card.Rank, "of", card.Suit)
 }
 
-func stand() {
-	fmt.Println("... Stand!")
-}
-
 func showHand(cards []Card) {
 	fmt.Printf("... Hand: %v\n", cards)
 }
@@ -40,12 +36,31 @@ func invalid() {
 	fmt.Println("... Invalid command!")
 }
 
-func main() {
-	deck := NewDeck()
+func dealerTurn(deck Deck, target int) {
 	cards := []Card{}
+	score := 0
+	for score < target {
+		card, err := deck.TakeRandomCard()
+		if err != nil {
+			fmt.Println("... Deck is empty!")
+			return
+		}
+		cards = append(cards, card)
+		fmt.Println("... Dealer hits and gets a", card.Rank, "of", card.Suit)
+		score = getScore(cards)
+	}
+	if score > 21 {
+		fmt.Printf("... Dealer BUST! Score: %v\n", score)
+		fmt.Println("... You win!")
+	} else {
+		fmt.Printf("... Dealer stands with score: %v\n", score)
+		fmt.Println("... You lose!")
+	}
+}
 
+func playerTurn(deck Deck) {
+	cards := []Card{}
 	var command string
-	fmt.Println("Welcome to Go 21!")
 	for {
 		fmt.Print("> ")
 		fmt.Scanf("%s", &command)
@@ -65,7 +80,9 @@ func main() {
 				return
 			}
 		case "stand":
-			stand()
+			fmt.Println("... Stand!")
+			dealerTurn(deck, getScore(cards))
+			return
 		case "cards", "hand":
 			showHand(cards)
 		case "score":
@@ -76,5 +93,10 @@ func main() {
 			invalid()
 		}
 	}
+}
 
+func main() {
+	fmt.Println("Welcome to Go 21!")
+	deck := NewDeck()
+	playerTurn(deck)
 }
