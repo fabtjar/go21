@@ -3,11 +3,24 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"strconv"
 )
 
 type Card struct {
 	Rank string
 	Suit string
+}
+
+func (c *Card) GetValue() int {
+	switch c.Rank {
+	case "Ace":
+		return 11
+	case "Jack", "Queen", "King":
+		return 10
+	default:
+		value, _ := strconv.Atoi(c.Rank)
+		return value
+	}
 }
 
 type Deck []Card
