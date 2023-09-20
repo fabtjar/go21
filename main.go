@@ -99,6 +99,11 @@ func main() {
 		case "hit":
 			cards = append(cards, deck.TakeRandomCard())
 			hit(cards[len(cards)-1])
+			score := getScore(cards)
+			if score > 21 {
+				fmt.Printf("... BUST! Score: %v\n", score)
+				return
+			}
 		case "stand":
 			stand()
 		case "cards", "hand":
