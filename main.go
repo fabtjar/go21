@@ -14,7 +14,7 @@ type Card struct {
 func (c *Card) GetValue() int {
 	switch c.Rank {
 	case "Ace":
-		return 11
+		return 1
 	case "Jack", "Queen", "King":
 		return 10
 	default:
@@ -62,6 +62,25 @@ func showHand(cards []Card) {
 	fmt.Printf("... Hand: %v\n", cards)
 }
 
+func getScore(cards []Card) int {
+	score := 0
+	hasAce := false
+	for _, card := range cards {
+		score += card.GetValue()
+		if card.Rank == "Ace" {
+			hasAce = true
+		}
+	}
+	if hasAce && score+10 <= 21 {
+		score += 10
+	}
+	return score
+}
+
+func showScore(cards []Card) {
+	fmt.Printf("... Score: %v\n", getScore(cards))
+}
+
 func invalid() {
 	fmt.Println("... Invalid command!")
 }
@@ -80,11 +99,12 @@ func main() {
 		case "hit":
 			cards = append(cards, deck.TakeRandomCard())
 			hit(cards[len(cards)-1])
-			fmt.Printf("You have %d cards left\n", len(deck))
 		case "stand":
 			stand()
 		case "cards", "hand":
 			showHand(cards)
+		case "score":
+			showScore(cards)
 		case "exit", "quit":
 			return
 		default:
