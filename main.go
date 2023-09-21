@@ -5,12 +5,11 @@ import (
 )
 
 func hit(card Card) {
-	fmt.Println("... Hit!")
-	fmt.Println("You got a", card.Rank, "of", card.Suit)
+	fmt.Println("You get a", card.Rank, "of", card.Suit)
 }
 
 func showHand(cards []Card) {
-	fmt.Printf("... Hand: %v\n", cards)
+	fmt.Printf("Cards: %v\n", cards)
 }
 
 func getScore(cards []Card) int {
@@ -29,32 +28,33 @@ func getScore(cards []Card) int {
 }
 
 func showScore(cards []Card) {
-	fmt.Printf("... Score: %v\n", getScore(cards))
+	fmt.Printf("Score: %v\n", getScore(cards))
 }
 
 func invalid() {
-	fmt.Println("... Invalid command!")
+	fmt.Println("Invalid command!")
 }
 
 func dealerTurn(deck Deck, target int) {
+	fmt.Println("Dealer's turn!")
 	cards := []Card{}
 	score := 0
 	for score < target {
 		card, err := deck.TakeRandomCard()
 		if err != nil {
-			fmt.Println("... Deck is empty!")
+			fmt.Println("Deck is empty!")
 			return
 		}
 		cards = append(cards, card)
-		fmt.Println("... Dealer hits and gets a", card.Rank, "of", card.Suit)
+		fmt.Println("Dealer hits and gets a", card.Rank, "of", card.Suit)
 		score = getScore(cards)
 	}
 	if score > 21 {
-		fmt.Printf("... Dealer BUST! Score: %v\n", score)
-		fmt.Println("... You win!")
+		fmt.Printf("Dealer BUST! Score: %v\n", score)
+		fmt.Println("You win!")
 	} else {
-		fmt.Printf("... Dealer stands with score: %v\n", score)
-		fmt.Println("... You lose!")
+		fmt.Printf("Dealer stands with score: %v\n", score)
+		fmt.Println("You lose!")
 	}
 }
 
@@ -69,18 +69,16 @@ func playerTurn(deck Deck) {
 		case "hit":
 			card, err := deck.TakeRandomCard()
 			if err != nil {
-				fmt.Println("... Deck is empty!")
-				return
+				panic(err)
 			}
 			cards = append(cards, card)
 			hit(card)
 			score := getScore(cards)
 			if score > 21 {
-				fmt.Printf("... BUST! Score: %v\n", score)
+				fmt.Printf("BUST! Score: %v\n", score)
 				return
 			}
 		case "stick", "stand":
-			fmt.Println("... Stand!")
 			dealerTurn(deck, getScore(cards))
 			return
 		case "cards", "hand":
