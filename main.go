@@ -79,7 +79,7 @@ func playerTurn(deck Deck) {
 				fmt.Printf("... BUST! Score: %v\n", score)
 				return
 			}
-		case "stand":
+		case "stick", "stand":
 			fmt.Println("... Stand!")
 			dealerTurn(deck, getScore(cards))
 			return
