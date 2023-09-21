@@ -4,51 +4,16 @@ import (
 	"fmt"
 )
 
-func hit(card Card) {
-	fmt.Println("You get a", card.Rank, "of", card.Suit)
-}
-
-func showHand(cards []Card) {
-	fmt.Printf("Cards: %v\n", cards)
-}
-
-func getScore(cards []Card) int {
-	score := 0
-	hasAce := false
-	for _, card := range cards {
-		score += card.GetValue()
-		if card.Rank == "Ace" {
-			hasAce = true
-		}
-	}
-	if hasAce && score+10 <= 21 {
-		score += 10
-	}
-	return score
-}
-
-func showScore(cards []Card) {
-	fmt.Printf("Score: %v\n", getScore(cards))
-}
-
-func invalid() {
-	fmt.Println("Invalid command!")
-}
-
 func dealerTurn(deck Deck, target int) {
 	fmt.Println("Dealer's turn!")
-	cards := []Card{}
-	score := 0
-	for score < target {
-		card, err := deck.TakeRandomCard()
-		if err != nil {
-			fmt.Println("Deck is empty!")
-			return
-		}
-		cards = append(cards, card)
+	dealer := Player{}
+
+	for dealer.GetScore() < target {
+		card := dealer.DrawCard(deck)
 		fmt.Println("Dealer hits and gets a", card.Rank, "of", card.Suit)
-		score = getScore(cards)
 	}
+
+	score := dealer.GetScore()
 	if score > 21 {
 		fmt.Printf("Dealer BUST! Score: %v\n", score)
 		fmt.Println("You win!")
@@ -59,36 +24,32 @@ func dealerTurn(deck Deck, target int) {
 }
 
 func playerTurn(deck Deck) {
-	cards := []Card{}
+	fmt.Println("Your turn!")
+	player := Player{}
+
 	var command string
 	for {
 		fmt.Print("> ")
 		fmt.Scanf("%s", &command)
-
 		switch command {
 		case "hit":
-			card, err := deck.TakeRandomCard()
-			if err != nil {
-				panic(err)
-			}
-			cards = append(cards, card)
-			hit(card)
-			score := getScore(cards)
-			if score > 21 {
-				fmt.Printf("BUST! Score: %v\n", score)
+			card := player.DrawCard(deck)
+			fmt.Println("You draw a", card.Rank, "of", card.Suit)
+			if player.IsBust() {
+				fmt.Println("You BUST!")
 				return
 			}
 		case "stick", "stand":
-			dealerTurn(deck, getScore(cards))
+			dealerTurn(deck, player.GetScore())
 			return
 		case "cards", "hand":
-			showHand(cards)
+			fmt.Println("Your hand:", player.Hand)
 		case "score":
-			showScore(cards)
+			fmt.Println("Your score:", player.GetScore())
 		case "exit", "quit":
 			return
 		default:
-			invalid()
+			fmt.Println("Invalid command!")
 		}
 	}
 }
