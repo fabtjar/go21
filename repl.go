@@ -43,9 +43,8 @@ func getCommands(g *Game) map[string]Command {
 func showHelp(commands map[string]Command) {
 	fmt.Println("help:")
 	for _, command := range commands {
-		fmt.Printf("- %v:  %v\n", command.Name, command.Help)
+		fmt.Printf("- %v: %v\n", command.Name, command.Help)
 	}
-	fmt.Println()
 }
 
 func startRepl(g *Game) {

@@ -27,7 +27,7 @@ func (g *Game) Start() {
 
 func (g *Game) Hit() {
 	card := g.player.DrawCard(g.deck)
-	fmt.Println("You draw a", card.Rank, "of", card.Suit)
+	fmt.Printf("You draw a %s of %s\n", card.Rank, card.Suit)
 	if g.player.IsBust() {
 		fmt.Println("You BUST!")
 		g.Playing = false
@@ -41,11 +41,11 @@ func (g *Game) Stand() {
 }
 
 func (g *Game) Hand() {
-	fmt.Println("Your hand:", g.player.Hand)
+	fmt.Printf("Your hand: %v\n", g.player.Hand)
 }
 
 func (g *Game) Score() {
-	fmt.Println("Your score:", g.player.GetScore())
+	fmt.Printf("Your score: %d\n", g.player.GetScore())
 }
 
 func (g *Game) Exit() {
@@ -60,7 +60,7 @@ func (g *Game) dealerTurn() {
 
 	for g.dealer.GetScore() < target {
 		card := g.dealer.DrawCard(g.deck)
-		fmt.Println("Dealer hits and gets a", card.Rank, "of", card.Suit)
+		fmt.Printf("Dealer hits and gets a %s of %s\n", card.Rank, card.Suit)
 	}
 
 	score := g.dealer.GetScore()
