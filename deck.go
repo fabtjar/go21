@@ -23,6 +23,10 @@ func (c *Card) GetValue() int {
 	}
 }
 
+func (c Card) String() string {
+	return c.Rank + " of " + c.Suit
+}
+
 type Deck []Card
 
 func NewDeck() Deck {
