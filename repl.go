@@ -40,7 +40,7 @@ func getCommands(g *Game) []Command {
 	}
 }
 
-func getCommand(commands []Command, name string) (Command, bool) {
+func findCommand(commands []Command, name string) (Command, bool) {
 	for _, command := range commands {
 		if command.Name == name {
 			return command, true
@@ -69,7 +69,7 @@ func startRepl(g *Game) {
 			continue
 		}
 
-		command, ok := getCommand(commands, commandName)
+		command, ok := findCommand(commands, commandName)
 
 		if !ok {
 			fmt.Println("Invalid command!")
