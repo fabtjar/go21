@@ -10,29 +10,29 @@ type Command struct {
 	Callback func()
 }
 
-func getCommands(g *Game) map[string]Command {
-	return map[string]Command{
-		"hit": {
+func getCommands(g *Game) []Command {
+	return []Command{
+		{
 			Name:     "hit",
 			Help:     "Draw a card from the deck",
 			Callback: g.Hit,
 		},
-		"stand": {
+		{
 			Name:     "stand",
 			Help:     "End your turn",
 			Callback: g.Stand,
 		},
-		"hand": {
+		{
 			Name:     "cards",
 			Help:     "Show your hand",
 			Callback: g.Hand,
 		},
-		"score": {
+		{
 			Name:     "score",
 			Help:     "Show your score",
 			Callback: g.Score,
 		},
-		"exit": {
+		{
 			Name:     "exit",
 			Help:     "Exit the game",
 			Callback: g.Exit,
@@ -40,7 +40,16 @@ func getCommands(g *Game) map[string]Command {
 	}
 }
 
-func showHelp(commands map[string]Command) {
+func getCommand(commands []Command, name string) (Command, bool) {
+	for _, command := range commands {
+		if command.Name == name {
+			return command, true
+		}
+	}
+	return Command{}, false
+}
+
+func showHelp(commands []Command) {
 	fmt.Println("help:")
 	for _, command := range commands {
 		fmt.Printf("- %v: %v\n", command.Name, command.Help)
@@ -60,7 +69,7 @@ func startRepl(g *Game) {
 			continue
 		}
 
-		command, ok := commands[commandName]
+		command, ok := getCommand(commands, commandName)
 
 		if !ok {
 			fmt.Println("Invalid command!")
