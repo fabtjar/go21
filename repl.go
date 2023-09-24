@@ -72,7 +72,7 @@ func startRepl(g *Game) {
 		command, ok := findCommand(commands, commandName)
 
 		if !ok {
-			fmt.Println("Invalid command!")
+			fmt.Println("Invalid command! ... type 'help' for a list of commands")
 			continue
 		}
 
