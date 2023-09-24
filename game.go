@@ -22,6 +22,14 @@ func NewGame() Game {
 
 func (g *Game) Start() {
 	fmt.Println("Welcome to Go 21!")
+
+	g.dealer.DrawCard(g.deck)
+	fmt.Printf("Dealer's hand: %v\n", g.dealer.Hand)
+
+	g.player.DrawCard(g.deck)
+	g.player.DrawCard(g.deck)
+	g.Hand()
+
 	g.Playing = true
 }
 
