@@ -49,7 +49,10 @@ func (g *Game) Stand() {
 }
 
 func (g *Game) Hand() {
-	fmt.Printf("Your hand: %v\n", g.player.Hand)
+	fmt.Println("Your hand:")
+	for _, card := range g.player.Hand {
+		fmt.Printf("- %s\n", card)
+	}
 }
 
 func (g *Game) Score() {
