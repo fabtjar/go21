@@ -1,3 +1,5 @@
+![go workflow](https://github.com/fabtjar/go21/actions/workflows/go.yml/badge.svg)
+
 # Go 21
 
 Go 21 is a simple Blackjack card game made in the Go.
