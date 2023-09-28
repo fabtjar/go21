@@ -36,16 +36,16 @@ func TestDrawCardError(t *testing.T) {
 
 func TestGetScore(t *testing.T) {
 	testCases := []struct {
-		ranks    []string
+		ranks    []Rank
 		expected int
 	}{
-		{[]string{}, 0},
-		{[]string{"1"}, 1},
-		{[]string{"2", "3"}, 5},
-		{[]string{"4", "5", "6"}, 15},
-		{[]string{"Ace", "Jack"}, 21},
-		{[]string{"Ace", "Ace", "Ace", "Ace"}, 14},
-		{[]string{"Ace", "Queen", "King"}, 21},
+		{[]Rank{}, 0},
+		{[]Rank{ACE}, 11},
+		{[]Rank{TWO, THREE}, 5},
+		{[]Rank{FOUR, FIVE, SIX}, 15},
+		{[]Rank{ACE, JACK}, 21},
+		{[]Rank{ACE, ACE, ACE, ACE}, 14},
+		{[]Rank{ACE, QUEEN, KING}, 21},
 	}
 	for _, tc := range testCases {
 		p := Player{}
@@ -60,13 +60,13 @@ func TestGetScore(t *testing.T) {
 
 func TestIsBust(t *testing.T) {
 	testCases := []struct {
-		ranks    []string
+		ranks    []Rank
 		expected bool
 	}{
-		{[]string{}, false},
-		{[]string{"1"}, false},
-		{[]string{"Ace", "Jack"}, false},
-		{[]string{"Jack", "Queen", "King"}, true},
+		{[]Rank{}, false},
+		{[]Rank{TEN}, false},
+		{[]Rank{ACE, JACK}, false},
+		{[]Rank{JACK, QUEEN, KING}, true},
 	}
 
 	for _, tc := range testCases {

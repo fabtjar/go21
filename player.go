@@ -18,7 +18,7 @@ func (p *Player) GetScore() int {
 	hasAce := false
 	for _, card := range p.Hand {
 		score += card.GetValue()
-		if card.Rank == "Ace" {
+		if card.Rank == ACE {
 			hasAce = true
 		}
 	}

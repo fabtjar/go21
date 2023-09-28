@@ -17,11 +17,11 @@ func TestTakeRandomCard(t *testing.T) {
 	if len(deck) != 51 {
 		t.Errorf("Expected deck length of 51, but got %v", len(deck))
 	}
-	if card.Rank == "" {
-		t.Errorf("Expected card to have a rank, but got %v", card.Rank)
+	if card.Rank < ACE || card.Rank > KING {
+		t.Errorf("Expected card to have a valid rank, but got %v", card.Rank)
 	}
-	if card.Suit == "" {
-		t.Errorf("Expected card to have a suit, but got %v", card.Suit)
+	if card.Suit < HEARTS || card.Suit > SPADES {
+		t.Errorf("Expected card to have a valid suit, but got %v", card.Suit)
 	}
 }
 
@@ -55,9 +55,9 @@ func DoCardsMatch(card1 Card, card2 Card) bool {
 
 func TestTakeRandomCardIsRandom(t *testing.T) {
 	deck := Deck{
-		Card{Rank: "Ace", Suit: "Hearts"},
-		Card{Rank: "Jack", Suit: "Diamonds"},
-		Card{Rank: "Queen", Suit: "Clubs"},
+		Card{Rank: ACE, Suit: HEARTS},
+		Card{Rank: JACK, Suit: DIAMONDS},
+		Card{Rank: QUEEN, Suit: CLUBS},
 	}
 	card1, _ := deck.TakeRandomCard()
 	card2, _ := deck.TakeRandomCard()
@@ -69,22 +69,22 @@ func TestTakeRandomCardIsRandom(t *testing.T) {
 
 func TestCardValues(t *testing.T) {
 	testCases := []struct {
-		rank     string
+		rank     Rank
 		expected int
 	}{
-		{"Ace", 1},
-		{"2", 2},
-		{"3", 3},
-		{"4", 4},
-		{"5", 5},
-		{"6", 6},
-		{"7", 7},
-		{"8", 8},
-		{"9", 9},
-		{"10", 10},
-		{"Jack", 10},
-		{"Queen", 10},
-		{"King", 10},
+		{ACE, 1},
+		{TWO, 2},
+		{THREE, 3},
+		{FOUR, 4},
+		{FIVE, 5},
+		{SIX, 6},
+		{SEVEN, 7},
+		{EIGHT, 8},
+		{NINE, 9},
+		{TEN, 10},
+		{JACK, 10},
+		{QUEEN, 10},
+		{KING, 10},
 	}
 	for _, tc := range testCases {
 		card := Card{Rank: tc.rank}

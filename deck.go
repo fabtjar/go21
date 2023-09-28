@@ -3,35 +3,76 @@ package main
 import (
 	"errors"
 	"math/rand"
-	"strconv"
 )
 
+type Rank int
+
+const (
+	ACE Rank = iota
+	TWO
+	THREE
+	FOUR
+	FIVE
+	SIX
+	SEVEN
+	EIGHT
+	NINE
+	TEN
+	JACK
+	QUEEN
+	KING
+)
+
+func (r Rank) String() string {
+	ranks := []string{"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"}
+	if r < ACE || r > KING {
+		return "Unknown"
+	}
+	return ranks[r]
+}
+
+type Suit int
+
+const (
+	HEARTS Suit = iota
+	DIAMONDS
+	CLUBS
+	SPADES
+)
+
+func (s Suit) String() string {
+	suits := []string{"Hearts", "Diamonds", "Clubs", "Spades"}
+	if s < HEARTS || s > SPADES {
+		return "Unknown"
+	}
+	return suits[s]
+}
+
 type Card struct {
-	Rank string
-	Suit string
+	Rank Rank
+	Suit Suit
+}
+
+func (c *Card) String() string {
+	return c.Rank.String() + " of " + c.Suit.String()
 }
 
 func (c *Card) GetValue() int {
 	switch c.Rank {
-	case "Ace":
+	case ACE:
 		return 1
-	case "Jack", "Queen", "King":
+	case JACK, QUEEN, KING:
 		return 10
 	default:
-		value, _ := strconv.Atoi(c.Rank)
-		return value
+		return int(c.Rank) + 1
 	}
-}
-
-func (c Card) String() string {
-	return c.Rank + " of " + c.Suit
 }
 
 type Deck []Card
 
 func NewDeck() Deck {
-	ranks := []string{"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"}
-	suits := []string{"Hearts", "Diamonds", "Clubs", "Spades"}
+	ranks := []Rank{ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING}
+	suits := []Suit{HEARTS, DIAMONDS, CLUBS, SPADES}
 
 	deck := Deck{}
 
