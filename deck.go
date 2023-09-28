@@ -74,7 +74,7 @@ func NewDeck() Deck {
 	ranks := []Rank{ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING}
 	suits := []Suit{HEARTS, DIAMONDS, CLUBS, SPADES}
 
-	deck := Deck{}
+	deck := make(Deck, 0, 52)
 
 	for _, suit := range suits {
 		for _, rank := range ranks {
