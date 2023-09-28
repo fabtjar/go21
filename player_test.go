@@ -43,6 +43,7 @@ func TestGetScore(t *testing.T) {
 		{[]Rank{ACE}, 11},
 		{[]Rank{TWO, THREE}, 5},
 		{[]Rank{FOUR, FIVE, SIX}, 15},
+		{[]Rank{FOUR, FIVE, ACE}, 20},
 		{[]Rank{ACE, JACK}, 21},
 		{[]Rank{ACE, ACE, ACE, ACE}, 14},
 		{[]Rank{ACE, QUEEN, KING}, 21},
